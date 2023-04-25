@@ -20,7 +20,7 @@ def plot_infection_times(infection_times, lambdas, mus, log_time=True):
     sns.heatmap(np.log(times_df) if log_time else times_df)
     plt.xlabel("$\lambda$", fontsize=12)
     plt.ylabel("$\mu$", fontsize=12)
-    plt.title(("Log-" if log_time else "") + "Time vs ($\lambda, \mu$)")
+    plt.title(("Log-" if log_time else "") + "T vs ($\lambda, \mu$)")
     plt.show()
 
 

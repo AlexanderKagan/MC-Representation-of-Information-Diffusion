@@ -1,5 +1,6 @@
 from InfectionModel import MarkovInfectionModel
 import numpy as np
+import networkx as nx
 
 
 def make_init_state(n_nodes, p_plus: float, p_minus: float):
@@ -45,3 +46,18 @@ def run_full_spread_experiment(proportion_params, model: MarkovInfectionModel,
             anti_idea_full_spread += 1
 
     return idea_full_spread / (idea_full_spread + anti_idea_full_spread)
+
+
+def run_time_experiment_given_complete_graph_size(n_nodes, rates=(0.5, 0.5), n_simulations=10000, n_messages=10000):
+    init_state = make_init_state(n_nodes, 1 / n_nodes, 1 / n_nodes)
+    g = nx.complete_graph(n_nodes)
+
+    infection_times = []
+    for _ in range(n_simulations):
+        model = MarkovInfectionModel(g, *rates)
+        model.make_simulation(n_messages, init_state, verbose=False)
+        if model.infection_time is not None:
+            infection_times.append(model.infection_time)
+
+    #     print("Proportion of fully infected processes", len(infection_times) / n_simulations)
+    return infection_times
